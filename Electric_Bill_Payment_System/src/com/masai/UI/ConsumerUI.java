@@ -1,9 +1,15 @@
 package com.masai.UI;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
+import com.masai.Color.ConsoleColors;
+import com.masai.DAO.BillsDAO;
+import com.masai.DAO.BillsDAOImple;
 import com.masai.DAO.ConsumerDAO;
 import com.masai.DAO.ConsumerDAOImple;
+import com.masai.DTO.BillDTO;
+import com.masai.DTO.BillDTOImple;
 import com.masai.DTO.ConsumerDTO;
 import com.masai.DTO.ConsumerDTOImple;
 import com.masai.Exception.NoRecordFoundException;
@@ -47,16 +53,16 @@ public class ConsumerUI {
 		ConsumerDAO conDao = new ConsumerDAOImple();
 		try {
 			conDao.addConsumer(conDto);
-			System.out.println("Sign-up succesfull for " + firstName + " " + lastName);
+			System.out.println(ConsoleColors.GREEN_BACKGROUND_BRIGHT+"Sign-up succesfull for " + firstName + " " + lastName+ConsoleColors.RESET);
 		} catch (SomethingWentWrongException e) {
 			System.out.println(e.getMessage());
 		}
 		
 	}
 	
-	public static boolean login() {
-		boolean loggedInSuccessful = false;
+	public static String login() {
 		
+		String name = null;
 		System.out.print("Enter your user name ");
 		String userName = scanner.next();
 		
@@ -64,14 +70,64 @@ public class ConsumerUI {
 		String password = scanner.next();
 		
 		ConsumerDAO conDao = new ConsumerDAOImple();
-		
 		try {
-			conDao.login(userName, password);
-			loggedInSuccessful = true;
+			name = conDao.login(userName, password);
+			
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
 			System.out.println(e.getMessage());
 		}
 		
-		return loggedInSuccessful;
+		return name;
+	}
+	
+	public static void logOut() {
+		ConsumerDAO consumerDAO = new ConsumerDAOImple();
+		consumerDAO.logOut();
+	}
+	
+	public static void payBill() {
+		System.out.print("Enter start date(yyyy-MM-dd) ");
+		LocalDate bill_start_date = LocalDate.parse(scanner.next());
+		
+		System.out.print("Enter end date(yyyy-MM-dd) ");
+		LocalDate bill_end_date = LocalDate.parse(scanner.next());
+		
+		System.out.print("Enter unit consumed ");
+		int unit = scanner.nextInt();
+		int curr_mon_total = (int) ((unit*10)+80+ (((unit*10)+80)*2.5)/100);
+		
+		
+		int totalPaidBill = 0;
+		int totalPendingBill = 0;
+		
+		BillsDAO billsDAO = new BillsDAOImple();
+		try {
+			totalPaidBill = billsDAO.totalPaidBill();
+			totalPendingBill = billsDAO.totalPendingBill();
+		} catch (SomethingWentWrongException | NoRecordFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Total bill of this month is "+ curr_mon_total);
+		
+		totalPendingBill = totalPendingBill + curr_mon_total;
+		System.out.println("Your total pending bill including this month is " + totalPendingBill);
+		
+		String status = null;
+		System.out.print("Do you want to pay bill now or later (now/later) ");
+		
+		status = scanner.next();
+		if(status.equalsIgnoreCase("now")) {
+			status = "paid";
+			System.out.print("Enter amount you want to pay ");
+			int amount = scanner.nextInt();
+			totalPendingBill = totalPendingBill - amount;
+			totalPaidBill = totalPaidBill + amount;
+			System.out.println("Your total paid bill is (Including this month) " + totalPaidBill);
+			BillDTO billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
+		}
+		else {
+			status = "pending";
+			BillDTO billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
+		}
 	}
 }
