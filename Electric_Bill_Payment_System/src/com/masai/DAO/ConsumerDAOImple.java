@@ -115,12 +115,13 @@ public class ConsumerDAOImple implements ConsumerDAO {
 	}
 
 	@Override
-	public void login(String userName, String password) throws SomethingWentWrongException, NoRecordFoundException {
+	public String login(String userName, String password) throws SomethingWentWrongException, NoRecordFoundException {
 		Connection con = null;
+		String name = null;
 		
 		try {
 			con = DBUtils.createConnectionBet();
-			String query = "SELECT userId FROM consumers WHERE userName = ? AND password = ?";
+			String query = "SELECT firstName, userId FROM consumers WHERE userName = ? AND password = ?";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, userName);
 			ps.setString(2, password);
@@ -128,6 +129,7 @@ public class ConsumerDAOImple implements ConsumerDAO {
 			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("Consumer need to sign up first");
 			
 			rs.next();
+			name = rs.getString("firstName");
 			LoggInUser.loggInUserId = rs.getInt("userId");
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -140,6 +142,12 @@ public class ConsumerDAOImple implements ConsumerDAO {
 				
 			}
 		}
+		return name;
+	}
+
+	@Override
+	public void logOut() {
+		LoggInUser.loggInUserId = 0;
 	}
 
 }

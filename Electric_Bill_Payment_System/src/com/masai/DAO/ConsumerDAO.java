@@ -10,5 +10,6 @@ public interface ConsumerDAO {
 	public void addConsumer(ConsumerDTO conDto) throws SomethingWentWrongException;
 	public List<ConsumerDTO> viewAllConsumer() throws SomethingWentWrongException, NoRecordFoundException;
 	public void deleteConsumer(int userId) throws SomethingWentWrongException;
-	public void login(String userName, String password) throws SomethingWentWrongException, NoRecordFoundException;
+	public String login(String userName, String password) throws SomethingWentWrongException, NoRecordFoundException;
+	public void logOut();
 }

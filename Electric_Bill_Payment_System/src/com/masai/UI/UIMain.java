@@ -1,12 +1,13 @@
 package com.masai.UI;
 
 import java.util.Scanner;
-
 import com.masai.Color.ConsoleColors;
+import com.masai.DAO.LoggInUser;
 
 public class UIMain {
 	private static ConsumerUI consumerUI;
 	private static AdminUI adminUI;
+	private static BillUI billUI;
 	public static void displayMenu() {
 	   System.out.println(ConsoleColors.RED_BRIGHT
 			   		     +"+-------------------+\n"
@@ -23,11 +24,12 @@ public class UIMain {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		consumerUI = new ConsumerUI(input);
+		billUI = new BillUI(input);
 		int choice = 0;
 		
 		do {
 			displayMenu();
-			System.out.println("Enter Section ");
+			System.out.print(ConsoleColors.BLUE_BACKGROUND_BRIGHT+"Enter Section "+ConsoleColors.RESET);
 			choice = input.nextInt();
 			
 			switch(choice) {
@@ -45,7 +47,7 @@ public class UIMain {
 					System.out.println("Thanks for visiting here");
 					break;
 				default:
-					System.out.println("Invalid Section");
+					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section"+ConsoleColors.RESET);
 			
 			}
 			
@@ -87,7 +89,7 @@ public class UIMain {
 		
 		do {
 			displayAdminMenu();
-			System.out.print("Enter Section ");
+			System.out.print(ConsoleColors.BLUE_BACKGROUND_BRIGHT+"Enter Section "+ConsoleColors.RESET);
 			choice = input.nextInt();
 			
 			switch(choice) {
@@ -107,7 +109,7 @@ public class UIMain {
 					System.out.println("Admin logged out..");
 					break;
 				default:
-					System.out.println("Invalid Section");
+					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section"+ConsoleColors.RESET);
 			}
 			
 		}
@@ -125,7 +127,31 @@ public class UIMain {
 	}
 	
 	public static void userLogin(Scanner input) {
-		if(!ConsumerUI.login()) return;
+		String name = ConsumerUI.login();
+		if(name == null) return;
+		else System.out.println("Hi, "+name + " What do you want to choose. ");
+		
+		int choice = 0;
+		
+		do {
+			displayUserMenu();
+			System.out.print(ConsoleColors.BLUE_BACKGROUND_BRIGHT+"Enter Section "+ConsoleColors.RESET);
+			choice = input.nextInt();
+			switch(choice) {
+				case 0:
+					ConsumerUI.logOut();
+					System.out.println("Thank you for using our services. Visit again,,");
+					break;
+				case 1:
+					ConsumerUI.payBill();
+					break;
+				case 2:
+					break;
+				default:
+					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section, try again"+ConsoleColors.RESET);
+			}
+		}
+		while(choice != 0);
 	}
 
 }
