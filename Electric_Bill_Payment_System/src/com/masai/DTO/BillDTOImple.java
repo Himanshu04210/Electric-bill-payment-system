@@ -3,13 +3,20 @@ package com.masai.DTO;
 import java.time.LocalDate;
 
 public class BillDTOImple implements BillDTO {
-	int unitConsumed;
-	LocalDate startDate;
-	LocalDate endDate;
-	String status;
-	int currMonBill;
-	int totalPaidBill;
-	int totalPendingBill;
+	private int unitConsumed;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private String status;
+	private int currMonBill;
+	private int totalPaidBill;
+	private int totalPendingBill;
+	private int consumer_id;
+	
+	@Override
+	public String toString() {
+		return "totalPaidBill=" + totalPaidBill + ", totalPendingBill=" + totalPendingBill ;
+	}
+
 	public BillDTOImple(int unitConsumed, LocalDate startDate, LocalDate endDate, String status, int currMonBill,
 			int totalPaidBill, int totalPendingBill) {
 		this.unitConsumed = unitConsumed;
@@ -19,8 +26,34 @@ public class BillDTOImple implements BillDTO {
 		this.currMonBill = currMonBill;
 		this.totalPaidBill = totalPaidBill;
 		this.totalPendingBill = totalPendingBill;
+		
 	}
 	
+	public BillDTOImple(int consumer_id, String status, LocalDate startDate, LocalDate endDate, int unitConsumed, int currMonBill) {
+		this.consumer_id = consumer_id;
+		this.status = status;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.currMonBill = currMonBill;
+		this.unitConsumed = unitConsumed;
+	}
+	
+	public BillDTOImple( int totalPaidBill, int totalPendingBill) {
+		this.totalPaidBill = totalPaidBill;
+		this.totalPendingBill = totalPendingBill;
+	}
+	
+
+	@Override
+	public int getConsumer_id() {
+		return consumer_id;
+	}
+	
+	@Override
+	public void setConsumer_id(int consumer_id) {
+		this.consumer_id = consumer_id;
+	}
+
 	@Override
 	public int getUnitConsumed() {
 		return unitConsumed;

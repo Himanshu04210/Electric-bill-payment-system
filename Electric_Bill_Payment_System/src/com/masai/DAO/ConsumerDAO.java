@@ -12,4 +12,6 @@ public interface ConsumerDAO {
 	public void deleteConsumer(int userId) throws SomethingWentWrongException;
 	public String login(String userName, String password) throws SomethingWentWrongException, NoRecordFoundException;
 	public void logOut();
+	public List<ConsumerDTO> viewAllPaidAndPendingBill() throws SomethingWentWrongException, NoRecordFoundException;
+	
 }
