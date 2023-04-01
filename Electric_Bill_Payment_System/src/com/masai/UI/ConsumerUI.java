@@ -8,10 +8,13 @@ import com.masai.DAO.BillsDAO;
 import com.masai.DAO.BillsDAOImple;
 import com.masai.DAO.ConsumerDAO;
 import com.masai.DAO.ConsumerDAOImple;
+import com.masai.DAO.TransacationDAOImple;
+import com.masai.DAO.TransactionDAO;
 import com.masai.DTO.BillDTO;
 import com.masai.DTO.BillDTOImple;
 import com.masai.DTO.ConsumerDTO;
 import com.masai.DTO.ConsumerDTOImple;
+import com.masai.DTO.TransactionDTOImple;
 import com.masai.Exception.NoRecordFoundException;
 import com.masai.Exception.SomethingWentWrongException;
 
@@ -127,7 +130,12 @@ public class ConsumerUI {
 			System.out.println("Your total paid bill is (Including this month) " + totalPaidBill);
 			System.out.println("Your total pending bill is (Including this month) " + totalPendingBill);
 			billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
-			
+			TransactionDAO traDao = new TransacationDAOImple();
+			try {
+				traDao.addTransaction(new TransactionDTOImple(amount, bill_end_date));
+			} catch (SomethingWentWrongException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		else {
 			status = "pending";

@@ -11,7 +11,7 @@ public class TransactionDTOImple implements TransactionDTO {
 	}
 	@Override
 	public String toString() {
-		return "TransactionDTOImple [amount=" + amount + ", transaction_date=" + transaction_date + "]";
+		return "Transaction: amount=" + amount + ", transaction_date=" + transaction_date + "\n";
 	}
 	
 	@Override

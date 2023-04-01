@@ -149,6 +149,7 @@ public class UIMain {
 					ConsumerUI.payBill();
 					break;
 				case 2:
+					TransactionUI.viewAllTransaction();
 					break;
 				default:
 					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section, try again"+ConsoleColors.RESET);
