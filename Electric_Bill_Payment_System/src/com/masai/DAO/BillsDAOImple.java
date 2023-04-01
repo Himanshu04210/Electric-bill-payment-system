@@ -5,13 +5,15 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import com.masai.DBCon.DBUtils;
 import com.masai.DTO.BillDTO;
+import com.masai.DTO.BillDTOImple;
+import com.masai.DTO.ConsumerDTO;
 import com.masai.Exception.NoRecordFoundException;
 import com.masai.Exception.SomethingWentWrongException;
-
 public class BillsDAOImple implements BillsDAO {
 
 	@Override
@@ -22,11 +24,11 @@ public class BillsDAOImple implements BillsDAO {
 		
 		try {
 			con = DBUtils.createConnectionBet();
-			String query = "SELECT total_paid_bill FROM bills WHERE consumer_id = ? AND status = 'paid' ORDER BY total_paid_bill DESC LIMIT 1";
+			String query = "SELECT total_paid_bill FROM bills WHERE consumer_id = ? ORDER BY bill_end_date DESC LIMIT 1";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, LoggInUser.loggInUserId);
 			ResultSet rs = ps.executeQuery();
-			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("No Data availble ");
+			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("No previous record availble ");
 			else {
 				rs.next();
 				totalPaidBill = rs.getInt("total_paid_bill");
@@ -53,11 +55,11 @@ public class BillsDAOImple implements BillsDAO {
 		
 		try {
 			con = DBUtils.createConnectionBet();
-			String query = "SELECT total_pending_bill FROM bills WHERE consumer_id = ? AND status = 'pending' ORDER BY total_pending_bill DESC LIMIT 1";
+			String query = "SELECT total_pending_bill FROM bills WHERE consumer_id = ? ORDER BY bill_end_date DESC LIMIT 1";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, LoggInUser.loggInUserId);
 			ResultSet rs = ps.executeQuery();
-			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("No Data availble ");
+			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("No previous record availble ");
 			else {
 				rs.next();
 				totalPendingBill = rs.getInt("total_pending_bill");
@@ -101,7 +103,7 @@ public class BillsDAOImple implements BillsDAO {
 			ps.executeUpdate();
 			
 		} catch (ClassNotFoundException | SQLException e) {
-			throw new SomethingWentWrongException("Something went wrong" + e.getMessage());
+			throw new SomethingWentWrongException("Something went wrong " + e.getMessage());
 		}
 		finally {
 			try {
@@ -111,5 +113,75 @@ public class BillsDAOImple implements BillsDAO {
 			}
 		}
 	}
+
+	@Override
+	public List<BillDTO> viewBillsOfConsumer(int consumer_Id)
+			throws SomethingWentWrongException, NoRecordFoundException {
+		List<BillDTO> list = new ArrayList<>();
+		
+		Connection con = null;
+		try {
+			con = DBUtils.createConnectionBet();
+			String query = "SELECT consumer_id, status, bill_start_date, bill_end_date, mon_unit_consumed, curr_mon_bill FROM bills where consumer_Id = ?";
+			PreparedStatement ps = con.prepareStatement(query);
+			
+			ps.setInt(1, consumer_Id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("No Data availble for this consumer Id");
+			else {
+				while(rs.next()) {
+					list.add(new BillDTOImple(rs.getInt(1), rs.getString(2), rs.getDate(3).toLocalDate(), rs.getDate(4).toLocalDate(), rs.getInt(5), rs.getInt(6)));
+				}
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new SomethingWentWrongException("Something went wrong " + e.getMessage());
+		}
+		finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				
+			}
+		}
+		
+		
+		return list;
+	}
+
+	@Override
+	public List<BillDTO> viewAllBill() throws SomethingWentWrongException, NoRecordFoundException {
+		List<BillDTO> list = new ArrayList<>();
+		
+		Connection con = null;
+		try {
+			con = DBUtils.createConnectionBet();
+			String query = "SELECT consumer_id, status, bill_start_date, bill_end_date, mon_unit_consumed, curr_mon_bill FROM bills order by consumer_id";
+			PreparedStatement ps = con.prepareStatement(query);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("No Data availble for this consumer Id");
+			else {
+				while(rs.next()) {
+					list.add(new BillDTOImple(rs.getInt(1), rs.getString(2), rs.getDate(3).toLocalDate(), rs.getDate(4).toLocalDate(), rs.getInt(5), rs.getInt(6)));
+				}
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new SomethingWentWrongException("Something went wrong " + e.getMessage());
+		}
+		finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				
+			}
+		}
+		
+		return list;
+	}
+
+	
 
 }

@@ -115,6 +115,8 @@ public class ConsumerUI {
 		String status = null;
 		System.out.print("Do you want to pay bill now or later (now/later) ");
 		
+		BillDTO billDTO = null;
+		
 		status = scanner.next();
 		if(status.equalsIgnoreCase("now")) {
 			status = "paid";
@@ -123,11 +125,22 @@ public class ConsumerUI {
 			totalPendingBill = totalPendingBill - amount;
 			totalPaidBill = totalPaidBill + amount;
 			System.out.println("Your total paid bill is (Including this month) " + totalPaidBill);
-			BillDTO billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
+			System.out.println("Your total pending bill is (Including this month) " + totalPendingBill);
+			billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
+			
 		}
 		else {
 			status = "pending";
-			BillDTO billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
+			System.out.println("Your total paid bill is (Including this month) " + totalPaidBill);
+			billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
 		}
+		
+		try {
+			billsDAO.addBill(billDTO);
+			System.out.println("Bill generated successfully :)");
+		} catch (SomethingWentWrongException e) {
+			System.out.println(e.getMessage());
+		}
+	
 	}
 }

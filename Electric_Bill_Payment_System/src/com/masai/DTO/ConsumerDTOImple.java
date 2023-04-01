@@ -10,7 +10,10 @@ public class ConsumerDTOImple implements ConsumerDTO {
 	private String address;
 	private String mobileNo;
 	private String email;
-	LocalDate connectionDate;
+	private LocalDate connectionDate;
+	private BillDTO billDTO;
+	
+	
 	public ConsumerDTOImple(String firstName, String lastName, String userName, String password, String address,
 			String mobileNo, String email, String connectionDate) {
 		this.firstName = firstName;
@@ -32,6 +35,24 @@ public class ConsumerDTOImple implements ConsumerDTO {
 		this.address = address;
 	}
 	
+	public ConsumerDTOImple(String firstName, String lastName, String mobileNo, String email
+			, String address, BillDTO billDTO) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mobileNo = mobileNo;
+		this.email = email;
+		this.address = address;
+		this.billDTO = billDTO;
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
+				+ ", mobileNo=" + mobileNo + ", email=" + email + "," + billDTO + "\n";
+	}
+
 	@Override
 	public String getFirstName() {
 		return firstName;

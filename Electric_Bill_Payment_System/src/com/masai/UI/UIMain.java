@@ -97,10 +97,13 @@ public class UIMain {
 					AdminUI.viewAllConsumer();
 					break;
 				case 2:
+					AdminUI.viewBillsOfConsumer(input);
 					break;
 				case 3:
+					AdminUI.viewAllBills();
 					break;
 				case 4:
+					AdminUI.viewAllBillPaidAndPending();
 					break;
 				case 5:
 					AdminUI.deleteConsumer(input);

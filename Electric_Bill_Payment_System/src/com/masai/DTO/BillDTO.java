@@ -17,4 +17,6 @@ public interface BillDTO {
 	public void setTotalPaidBill(int totalPaidBill);
 	public int getTotalPendingBill();
 	public void setTotalPendingBill(int totalPendingBill);
+	public int getConsumer_id();
+	public void setConsumer_id(int consumer_id) ;
 }
