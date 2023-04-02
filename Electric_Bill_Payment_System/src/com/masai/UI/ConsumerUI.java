@@ -8,10 +8,13 @@ import com.masai.DAO.BillsDAO;
 import com.masai.DAO.BillsDAOImple;
 import com.masai.DAO.ConsumerDAO;
 import com.masai.DAO.ConsumerDAOImple;
+import com.masai.DAO.TransacationDAOImple;
+import com.masai.DAO.TransactionDAO;
 import com.masai.DTO.BillDTO;
 import com.masai.DTO.BillDTOImple;
 import com.masai.DTO.ConsumerDTO;
 import com.masai.DTO.ConsumerDTOImple;
+import com.masai.DTO.TransactionDTOImple;
 import com.masai.Exception.NoRecordFoundException;
 import com.masai.Exception.SomethingWentWrongException;
 
@@ -55,7 +58,7 @@ public class ConsumerUI {
 			conDao.addConsumer(conDto);
 			System.out.println(ConsoleColors.GREEN_BACKGROUND_BRIGHT+"Sign-up succesfull for " + firstName + " " + lastName+ConsoleColors.RESET);
 		} catch (SomethingWentWrongException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND + e.getMessage() + ConsoleColors.RESET);
 		}
 		
 	}
@@ -74,7 +77,7 @@ public class ConsumerUI {
 			name = conDao.login(userName, password);
 			
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage() + ConsoleColors.RESET);
 		}
 		
 		return name;
@@ -105,9 +108,9 @@ public class ConsumerUI {
 			totalPaidBill = billsDAO.totalPaidBill();
 			totalPendingBill = billsDAO.totalPendingBill();
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND+e.getMessage() + ConsoleColors.RESET);
 		}
-		System.out.println("Total bill of this month is "+ curr_mon_total);
+		System.out.println(ConsoleColors.WHITE +ConsoleColors.BLUE_BACKGROUND +"Total bill of this month is "+ curr_mon_total);
 		
 		totalPendingBill = totalPendingBill + curr_mon_total;
 		System.out.println("Your total pending bill including this month is " + totalPendingBill);
@@ -127,7 +130,12 @@ public class ConsumerUI {
 			System.out.println("Your total paid bill is (Including this month) " + totalPaidBill);
 			System.out.println("Your total pending bill is (Including this month) " + totalPendingBill);
 			billDTO = new BillDTOImple(unit, bill_start_date, bill_end_date, status, curr_mon_total, totalPaidBill, totalPendingBill);
-			
+			TransactionDAO traDao = new TransacationDAOImple();
+			try {
+				traDao.addTransaction(new TransactionDTOImple(amount, bill_end_date));
+			} catch (SomethingWentWrongException e) {
+				System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage());
+			}
 		}
 		else {
 			status = "pending";
@@ -137,9 +145,9 @@ public class ConsumerUI {
 		
 		try {
 			billsDAO.addBill(billDTO);
-			System.out.println("Bill generated successfully :)");
+			System.out.println(ConsoleColors.GREEN_BACKGROUND + "Bill generated successfully :)" + ConsoleColors.RESET);
 		} catch (SomethingWentWrongException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage() + ConsoleColors.RESET);
 		}
 	
 	}

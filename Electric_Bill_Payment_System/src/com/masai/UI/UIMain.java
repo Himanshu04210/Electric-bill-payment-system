@@ -9,7 +9,7 @@ public class UIMain {
 	private static AdminUI adminUI;
 	private static BillUI billUI;
 	public static void displayMenu() {
-	   System.out.println(ConsoleColors.RED_BRIGHT
+	   System.out.println(ConsoleColors.RED
 			   		     +"+-------------------+\n"
 						+ "|  0. Exit          |\n"
 						+ "|  1. Admin login   |\n"
@@ -29,7 +29,7 @@ public class UIMain {
 		
 		do {
 			displayMenu();
-			System.out.print(ConsoleColors.BLUE_BACKGROUND_BRIGHT+"Enter Section "+ConsoleColors.RESET);
+			System.out.print(ConsoleColors.BLACK+ConsoleColors.WHITE_BACKGROUND+"Enter Section "+ConsoleColors.RESET);
 			choice = input.nextInt();
 			
 			switch(choice) {
@@ -44,8 +44,9 @@ public class UIMain {
 					ConsumerUI.sign_up();
 					break;
 				case 0:
-					System.out.println("Thanks for visiting here");
-					break;
+					System.out.println(ConsoleColors.BLUE_BACKGROUND +
+							"Thanks for visiting here");
+					return;
 				default:
 					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section"+ConsoleColors.RESET);
 			
@@ -80,7 +81,7 @@ public class UIMain {
 			adminMenu(input);
 		}
 		else
-		System.out.println(ConsoleColors.RED+"Credential Mismatch.."+ConsoleColors.RESET);
+		System.out.println(ConsoleColors.RED_BACKGROUND+"Credential Mismatch.."+ConsoleColors.RESET);
 		
 	}
 	
@@ -89,7 +90,7 @@ public class UIMain {
 		
 		do {
 			displayAdminMenu();
-			System.out.print(ConsoleColors.BLUE_BACKGROUND_BRIGHT+"Enter Section "+ConsoleColors.RESET);
+			System.out.print(ConsoleColors.BLACK+ConsoleColors.WHITE_BACKGROUND+"Enter Section "+ConsoleColors.RESET);
 			choice = input.nextInt();
 			
 			switch(choice) {
@@ -109,7 +110,7 @@ public class UIMain {
 					AdminUI.deleteConsumer(input);
 					break;
 				case 0:
-					System.out.println("Admin logged out..");
+					System.out.println(ConsoleColors.BLUE_BACKGROUND +"Admin logged out..");
 					break;
 				default:
 					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section"+ConsoleColors.RESET);
@@ -121,7 +122,7 @@ public class UIMain {
 	
 	public static void displayUserMenu() {
 		System.out.println(ConsoleColors.RED_BRIGHT
-		     	+"+--------------------------------+\n"
+		     	 +"+-------------------------------+\n"
 				+ "|  0. Logout                    |\n"
 				+ "|  1. pay bill                  |\n"
 				+ "|  2. View transaction History  |\n"
@@ -130,6 +131,7 @@ public class UIMain {
 	}
 	
 	public static void userLogin(Scanner input) {
+		System.out.println(ConsoleColors.BLACK+ConsoleColors.WHITE_BACKGROUND);
 		String name = ConsumerUI.login();
 		if(name == null) return;
 		else System.out.println("Hi, "+name + " What do you want to choose. ");
@@ -138,23 +140,25 @@ public class UIMain {
 		
 		do {
 			displayUserMenu();
-			System.out.print(ConsoleColors.BLUE_BACKGROUND_BRIGHT+"Enter Section "+ConsoleColors.RESET);
+			System.out.print(ConsoleColors.BLACK+ConsoleColors.WHITE_BACKGROUND+"Enter Section ");
+			
 			choice = input.nextInt();
 			switch(choice) {
 				case 0:
-					ConsumerUI.logOut();
-					System.out.println("Thank you for using our services. Visit again,,");
+					System.out.println( ConsoleColors.WHITE+ConsoleColors.BLUE_BACKGROUND +"Thank you for using our services. Visit again,,");
 					break;
 				case 1:
 					ConsumerUI.payBill();
 					break;
 				case 2:
+					TransactionUI.viewAllTransaction();
 					break;
 				default:
 					System.out.println(ConsoleColors.RED_BACKGROUND+"Invalid Section, try again"+ConsoleColors.RESET);
 			}
 		}
 		while(choice != 0);
+		System.out.println(ConsoleColors.BLACK+ConsoleColors.WHITE_BACKGROUND);
 	}
 
 }
