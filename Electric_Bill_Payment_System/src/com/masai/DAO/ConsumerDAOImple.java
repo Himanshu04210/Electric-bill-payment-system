@@ -127,7 +127,7 @@ public class ConsumerDAOImple implements ConsumerDAO {
 			ps.setString(1, userName);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
-			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("Consumer need to sign up first");
+			if(DBUtils.isResultSetEmpty(rs)) throw new NoRecordFoundException("User name or password is wrong.");
 			
 			rs.next();
 			name = rs.getString("firstName");

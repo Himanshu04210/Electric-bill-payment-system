@@ -58,7 +58,7 @@ public class ConsumerUI {
 			conDao.addConsumer(conDto);
 			System.out.println(ConsoleColors.GREEN_BACKGROUND_BRIGHT+"Sign-up succesfull for " + firstName + " " + lastName+ConsoleColors.RESET);
 		} catch (SomethingWentWrongException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND + e.getMessage() + ConsoleColors.RESET);
 		}
 		
 	}
@@ -77,7 +77,7 @@ public class ConsumerUI {
 			name = conDao.login(userName, password);
 			
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage() + ConsoleColors.RESET);
 		}
 		
 		return name;
@@ -108,9 +108,9 @@ public class ConsumerUI {
 			totalPaidBill = billsDAO.totalPaidBill();
 			totalPendingBill = billsDAO.totalPendingBill();
 		} catch (SomethingWentWrongException | NoRecordFoundException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND+e.getMessage() + ConsoleColors.RESET);
 		}
-		System.out.println("Total bill of this month is "+ curr_mon_total);
+		System.out.println(ConsoleColors.WHITE +ConsoleColors.BLUE_BACKGROUND +"Total bill of this month is "+ curr_mon_total);
 		
 		totalPendingBill = totalPendingBill + curr_mon_total;
 		System.out.println("Your total pending bill including this month is " + totalPendingBill);
@@ -134,7 +134,7 @@ public class ConsumerUI {
 			try {
 				traDao.addTransaction(new TransactionDTOImple(amount, bill_end_date));
 			} catch (SomethingWentWrongException e) {
-				System.out.println(e.getMessage());
+				System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage());
 			}
 		}
 		else {
@@ -145,9 +145,9 @@ public class ConsumerUI {
 		
 		try {
 			billsDAO.addBill(billDTO);
-			System.out.println("Bill generated successfully :)");
+			System.out.println(ConsoleColors.GREEN_BACKGROUND + "Bill generated successfully :)" + ConsoleColors.RESET);
 		} catch (SomethingWentWrongException e) {
-			System.out.println(e.getMessage());
+			System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage() + ConsoleColors.RESET);
 		}
 	
 	}
