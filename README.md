@@ -6,6 +6,9 @@ An electric bill payment system that allows customers to pay their electricity b
 ### An individual project completed by me in 5 working days.
 
 ### Tech stack
-java
-mysql
+<ul>
+<li>java</li>
+
+<li>mysql</li>
+</ul>
 
