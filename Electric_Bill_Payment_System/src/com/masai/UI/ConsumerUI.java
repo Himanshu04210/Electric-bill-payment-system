@@ -133,6 +133,7 @@ public class ConsumerUI {
 			TransactionDAO traDao = new TransacationDAOImple();
 			try {
 				traDao.addTransaction(new TransactionDTOImple(amount, bill_end_date));
+				System.out.println(ConsoleColors.WHITE_BOLD+ConsoleColors.GREEN_BACKGROUND+"Bill paid successfully!");
 			} catch (SomethingWentWrongException e) {
 				System.out.println(ConsoleColors.RED_BACKGROUND +e.getMessage());
 			}
