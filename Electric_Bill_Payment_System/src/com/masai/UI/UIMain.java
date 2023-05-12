@@ -9,7 +9,7 @@ public class UIMain {
 	private static AdminUI adminUI;
 	private static BillUI billUI;
 	public static void displayMenu() {
-	   System.out.println(ConsoleColors.RED
+	   System.out.println(ConsoleColors.RED+ConsoleColors.TEAL_BACKGROUND
 			   		     +"+-------------------+\n"
 						+ "|  0. Exit          |\n"
 						+ "|  1. Admin login   |\n"
