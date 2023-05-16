@@ -41,4 +41,6 @@ An electric bill payment system that allows customers to pay their electricity b
   </li>
 </ul>
 
-![WhatsApp Image 2023-04-06 at 11 27 44](https://user-images.githubusercontent.com/115461666/230286185-7bd999a4-3620-4782-b313-408548724560.jpg)
+![schema](https://github.com/Himanshu04210/helpful-society-2568/assets/115461666/3b8f1a75-f458-4cfe-ad3e-d4f0fc0cc2ae)
+
+
