@@ -1,13 +1,12 @@
 package com.masai.UI;
 
 import java.util.Scanner;
+
 import com.masai.Color.ConsoleColors;
-import com.masai.DAO.LoggInUser;
 
 public class UIMain {
 	private static ConsumerUI consumerUI;
 	private static AdminUI adminUI;
-	private static BillUI billUI;
 	public static void displayMenu() {
 	   System.out.println(ConsoleColors.RED+ConsoleColors.TEAL_BACKGROUND
 			   		     +"+-------------------+\n"
@@ -24,7 +23,6 @@ public class UIMain {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		consumerUI = new ConsumerUI(input);
-		billUI = new BillUI(input);
 		int choice = 0;
 		
 		do {

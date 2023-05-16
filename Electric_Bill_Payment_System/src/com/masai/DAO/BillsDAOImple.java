@@ -11,7 +11,6 @@ import java.util.List;
 import com.masai.DBCon.DBUtils;
 import com.masai.DTO.BillDTO;
 import com.masai.DTO.BillDTOImple;
-import com.masai.DTO.ConsumerDTO;
 import com.masai.Exception.NoRecordFoundException;
 import com.masai.Exception.SomethingWentWrongException;
 public class BillsDAOImple implements BillsDAO {
